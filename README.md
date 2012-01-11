@@ -19,7 +19,7 @@ Rails 2.x
 gem install mail_inbox
 ```
 
-in @config/environments/development.rb@:
+in `config/environments/development.rb`:
 
 ```ruby
 # MailInbox preview app
