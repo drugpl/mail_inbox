@@ -33,13 +33,13 @@ module MailInbox
     end
 
     def response_ok(body)
-      [200, default_headers, body]
+      [200, default_headers, [body]]
     end
 
     def response_not_found(options = {})
       headers               = default_headers
       headers['X-Cascade']  = 'pass' if options[:pass]
-      [404, headers, 'Not Found']
+      [404, headers, ['Not Found']]
     end
 
     def render_index
