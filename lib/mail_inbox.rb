@@ -22,11 +22,11 @@ module MailInbox
     end
 
     def default_index_template
-      Tilt.new(default_index_template_path)
+      Tilt.new(default_index_template_path.to_s)
     end
 
     def default_email_template
-      Tilt.new(default_email_template_path)
+      Tilt.new(default_email_template_path.to_s)
     end
   end
 end
