@@ -43,7 +43,7 @@ module MailInbox
     end
 
     def render_index
-      links = inbox.collect { |name, mail| [name, path_from_name(name)] }
+      links = inbox.collect { |name, mail| [mail.subject, path_from_name(name)] }
       MailInbox.default_index_template.render(self, :links => links)
     end
 
