@@ -17,4 +17,5 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency 'tilt'
   gem.add_development_dependency 'rails', '>= 3.0.0'
+  gem.add_development_dependency 'bbq'
 end
