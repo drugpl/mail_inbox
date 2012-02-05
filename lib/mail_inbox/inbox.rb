@@ -11,7 +11,7 @@ module MailInbox
     end
 
     def recipients
-      deliveries.collect { |delivery| delivery.to }.flatten.sort
+      deliveries.collect { |delivery| delivery.to }.flatten.uniq.sort
     end
 
     def for(recipient)
