@@ -1,6 +1,7 @@
 require 'mail_inbox/version'
 require 'mail_inbox/application'
 require 'mail_inbox/mailer'
+require 'mail_inbox/inbox'
 require 'mail_inbox/railtie' if defined?(Rails::Railtie)
 require 'rack/mime'
 require 'pathname'

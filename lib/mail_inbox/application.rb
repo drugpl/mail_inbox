@@ -4,16 +4,22 @@ module MailInbox
       @script_name = env['SCRIPT_NAME']
       case env['PATH_INFO']
       when '', '/'
-        response_ok render_index
-      when /([\w_]+)(\.\w+)?$/
-        name   = $1
+        response_ok render_index(inbox.all)
+      when %r{^/mails/([\w_]+)(\.\w+)?}
+        id     = $1
         format = $2 || ".html"
 
-        if inbox[name]
-          response_ok render_mail(name, inbox[name], format)
-        else
+        begin
+          mail = inbox.get(id)
+          response_ok render_mail(id, mail, format)
+        rescue MailInbox::DeliveryNotFound
           response_not_found
         end
+      when %r{^/recipients/(.*)$}
+        recipient = $1
+
+        mails = inbox.for(recipient)
+        response_ok render_index(mails)
       else
         response_not_found :pass => true
       end
@@ -21,11 +27,7 @@ module MailInbox
 
     protected
     def inbox
-      Hash[MailInbox::Mailer.deliveries.collect { |mail| [mail.object_id.to_s, mail] }]
-    end
-
-    def path_from_name(name)
-      "#{@script_name}/#{name}"
+      @inbox ||= MailInbox::Inbox.new(MailInbox::Mailer.deliveries)
     end
 
     def default_headers
@@ -42,9 +44,10 @@ module MailInbox
       [404, headers, ['Not Found']]
     end
 
-    def render_index
-      links = inbox.collect { |name, mail| [mail.subject, path_from_name(name)] }
-      MailInbox.default_index_template.render(self, :links => links)
+    def render_index(mails)
+      mails      = mails.collect { |mail| [mail.subject, mail_path(mail.object_id)] }
+      recipients = inbox.recipients.collect { |recipient| [recipient, recipient_path(recipient)] }
+      MailInbox.default_index_template.render(self, :mails => mails, :recipients => recipients)
     end
 
     def render_mail(name, mail, format = nil)
@@ -57,5 +60,18 @@ module MailInbox
 
       MailInbox.default_email_template.render(self, :name => name, :mail => mail, :body_part => body_part)
     end
+
+    def mail_path(mail_id)
+      path_for(:mails, mail_id)
+    end
+
+    def recipient_path(recipient_id)
+      path_for(:recipients, recipient_id)
+    end
+
+    def path_for(*parts)
+      ([@script_name] + parts).collect(&:to_s).join("/")
+    end
+
   end
 end

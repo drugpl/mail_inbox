@@ -1,5 +1,12 @@
-<ul>
-<% links.each do |name, link| %>
-  <li><a href="<%= link %>"><%= name %></a></li>
-<% end %>
-</ul>
+<div class="recipients">
+  <% recipients.each do |recipient, path| %>
+    <li><a href="<%= path %>"><%= recipient %></a>
+  <% end %>
+</div>
+<div class="mails">
+  <ul>
+    <% mails.each do |subject, path| %>
+      <li><a href="<%= path %>"><%= subject %></a></li>
+    <% end %>
+  </ul>
+</div>
