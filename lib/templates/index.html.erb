@@ -1,12 +1,27 @@
-<div class="recipients">
-  <% recipients.each do |recipient, path| %>
-    <li><a href="<%= path %>"><%= recipient %></a>
-  <% end %>
-</div>
-<div class="mails">
-  <ul>
-    <% mails.each do |subject, path| %>
-      <li><a href="<%= path %>"><%= subject %></a></li>
-    <% end %>
-  </ul>
-</div>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;" />
+</head>
+<style type="text/css">
+  body {
+    margin-top: 5px;
+  }
+  ul { list-style: none; margin-right: 10px; padding: 5px; }
+  li { line-height: 20px; }
+  .content { overflow: hidden; }
+  .recipients { float: left; border-right: 1px solid black; }
+  .mails { float: left; }
+</style>
+<body>
+  <div class="content">
+    <ul class="recipients">
+      <% recipients.each do |recipient, path| %>
+        <li><a href="<%= path %>"><%= recipient %></a>
+      <% end %>
+    </ul>
+    <ul class="mails">
+      <% mails.each do |subject, path| %>
+        <li><a href="<%= path %>"><%= subject %></a></li>
+      <% end %>
+    </ul>
+  </div>
+</body>
