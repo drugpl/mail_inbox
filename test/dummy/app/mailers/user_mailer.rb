@@ -3,6 +3,7 @@ class UserMailer < ActionMailer::Base
    mail :from => data.from,
         :to => data.to,
         :subject => data.subject,
-        :sender => data.sender
+        :sender => data.sender,
+        :body => data.body
   end
 end

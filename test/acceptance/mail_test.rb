@@ -46,7 +46,7 @@ class MailTest < Bbq::TestCase
   end
 
   scenario "user sees mail details" do
-    mail = get_mail(:from => "alice@example.net", :to => "bob@example.net", :subject => "hi there")
+    mail = get_mail(:from => "alice@example.net", :to => "bob@example.net", :subject => "hi there", :body => "what's up bro?")
     deliver_mail(mail)
 
     @user.visit "/mails"
@@ -54,6 +54,7 @@ class MailTest < Bbq::TestCase
     @user.see! mail.from
     @user.see! mail.to
     @user.see! mail.subject
+    @user.see! mail.body
   end
 
   scenario "user browses emails by recipient" do
